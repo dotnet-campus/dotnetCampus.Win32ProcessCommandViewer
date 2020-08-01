@@ -1,32 +1,32 @@
-# dotnetCampus.Win32ProcessCommandViewer                      [中文](README_zh-CN.md)
+# dotnetCampus.Win32ProcessCommandViewer
 
 | Build | NuGet |
 |--|--|
 |![](https://github.com/dotnet-campus/dotnetCampus.Win32ProcessCommandViewer/workflows/.NET%20Core/badge.svg)|[![](https://img.shields.io/nuget/v/dotnetCampus.Win32ProcessCommandViewer.svg)](https://www.nuget.org/packages/dotnetCampus.Win32ProcessCommandViewer)|
 
-A dotnet tool to output the process commandline.
+用于输出进程的命令行的 dotnet 工具
 
-## Install
+## 安装
 
 ```
 dotnet tool install -g dotnetCampus.Win32ProcessCommandViewer
 ```
 
-## Usage
+## 使用方法
 
-Output all processes commandline:
+输出所有进程的命令行参数:
 
 ```
 pscv
 ```
 
-Output special process by process name:
+输出指定进程名的进程的命令行:
 
 ```
 pscv -n [Process Name]
 ```
 
-Output special process by process id:
+输出指定进程 Id 的进程的命令行:
 
 ```
 pscv -i [Process Id]
