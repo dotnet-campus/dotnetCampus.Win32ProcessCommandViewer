@@ -13,24 +13,6 @@ namespace dotnetCampus.Win32ProcessCommandViewer
     {
         public static void Main(string[] args)
         {
-            if (Environment.Is64BitProcess)
-            {
-                // 这个程序只能运行 x86 的
-
-                var folder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                var file = Path.Combine(folder!, "dotnetCampus.Win32ProcessCommandViewer.exe");
-
-                var processStartInfo = new ProcessStartInfo(file);
-                foreach (var arg in args)
-                {
-                    processStartInfo.ArgumentList.Add(arg);
-                }
-
-                Process.Start(processStartInfo)!.WaitForExit();
-
-                return;
-            }
-
             var options = CommandLine.Parse(args).As<Options>();
 
             try

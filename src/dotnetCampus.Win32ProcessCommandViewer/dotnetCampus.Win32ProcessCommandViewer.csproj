@@ -2,28 +2,15 @@
 
 	<PropertyGroup>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 
 		<PlatformTarget>x86</PlatformTarget>
 		<OutputType>Exe</OutputType>
-
-		<PackAsTool>true</PackAsTool>
-		<ToolCommandName>pscv</ToolCommandName>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<!-- 链接源代码到 GitHub 仓库，方便调试 -->
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
-
 		<PackageReference Include="dotnetCampus.CommandLine" Version="3.3.0" />
-
-	</ItemGroup>
-
-
-	<ItemGroup>
-		<None Include="$(OutputPath)\$(AssemblyName).exe" Condition="Exists('$(OutputPath)\$(AssemblyName).exe')" Pack="true" PackagePath="tools\$(TargetFramework)\any\$(AssemblyName).exe"></None>
 	</ItemGroup>
 
 </Project>
