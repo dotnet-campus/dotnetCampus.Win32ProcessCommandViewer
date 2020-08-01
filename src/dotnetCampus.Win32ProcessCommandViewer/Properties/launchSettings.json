@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "dotnetCampus.Win32ProcessCommandViewer": {
+      "commandName": "Project"
+    },
+    "ProcessName": {
+      "commandName": "Project",
+      "commandLineArgs": "-n dotnetCampus.Win32ProcessCommandViewer"
+    },
+    "ProcessId": {
+      "commandName": "Project",
+      "commandLineArgs": "-i 2076"
+    }
+  }
+}
