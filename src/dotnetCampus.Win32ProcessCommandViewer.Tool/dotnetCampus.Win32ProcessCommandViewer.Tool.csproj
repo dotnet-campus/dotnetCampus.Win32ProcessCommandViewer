@@ -4,6 +4,7 @@
 		<OutputType>Exe</OutputType>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
 
+		<PackageId>dotnetCampus.Win32ProcessCommandViewer</PackageId>
 		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>pscv</ToolCommandName>
 	</PropertyGroup>
