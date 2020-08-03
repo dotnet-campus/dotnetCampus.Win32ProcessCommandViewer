@@ -90,54 +90,57 @@ namespace dotnetCampus.Win32ProcessCommandViewer
                 return "";
             }
 
-
-            if (NativeMethods.NtQueryInformationProcess(proc, 0, ref pbi,
-                pbi.Size, IntPtr.Zero) == 0)
+            try
             {
-                var buff = new byte[IntPtr.Size];
-                if (NativeMethods.ReadProcessMemory
-                (
-                    proc,
-                    (IntPtr)(pbi.PebBaseAddress.ToInt32() + 0x10),
-                    buff,
-                    IntPtr.Size, out _
-                ))
+                if (NativeMethods.NtQueryInformationProcess(proc, 0, ref pbi,
+                    pbi.Size, IntPtr.Zero) == 0)
                 {
-                    var buffPtr = BitConverter.ToInt32(buff, 0);
-                    var commandLine = new byte[Marshal.SizeOf(typeof(NativeMethods.UNICODE_STRING))];
-
-                    if
+                    var buff = new byte[IntPtr.Size];
+                    if (NativeMethods.ReadProcessMemory
                     (
-                        NativeMethods.ReadProcessMemory
-                        (
-                            proc, (IntPtr)(buffPtr + 0x40),
-                            commandLine,
-                            Marshal.SizeOf(typeof(NativeMethods.UNICODE_STRING)), out _
-                        )
-                    )
+                        proc,
+                        (IntPtr) (pbi.PebBaseAddress.ToInt32() + 0x10),
+                        buff,
+                        IntPtr.Size, out _
+                    ))
                     {
-                        var ucsData = ByteArrayToStructure<NativeMethods.UNICODE_STRING>(commandLine);
-                        var parms = new byte[ucsData.Length];
+                        var buffPtr = BitConverter.ToInt32(buff, 0);
+                        var commandLine = new byte[Marshal.SizeOf(typeof(NativeMethods.UNICODE_STRING))];
+
                         if
                         (
                             NativeMethods.ReadProcessMemory
                             (
-                                proc, ucsData.buffer, parms,
-                                ucsData.Length, out _
+                                proc, (IntPtr) (buffPtr + 0x40),
+                                commandLine,
+                                Marshal.SizeOf(typeof(NativeMethods.UNICODE_STRING)), out _
                             )
                         )
                         {
-                            return Encoding.Unicode.GetString(parms);
+                            var ucsData = ByteArrayToStructure<NativeMethods.UNICODE_STRING>(commandLine);
+                            var parms = new byte[ucsData.Length];
+                            if
+                            (
+                                NativeMethods.ReadProcessMemory
+                                (
+                                    proc, ucsData.buffer, parms,
+                                    ucsData.Length, out _
+                                )
+                            )
+                            {
+                                return Encoding.Unicode.GetString(parms);
+                            }
                         }
                     }
                 }
             }
-
-            NativeMethods.CloseHandle(proc);
+            finally
+            {
+                NativeMethods.CloseHandle(proc);
+            }
 
             return "";
         }
-
 
 
         private const uint PROCESS_QUERY_INFORMATION = 0x400;
@@ -146,7 +149,7 @@ namespace dotnetCampus.Win32ProcessCommandViewer
         private static T ByteArrayToStructure<T>(byte[] bytes) where T : struct
         {
             var handle = GCHandle.Alloc(bytes, GCHandleType.Pinned);
-            var stuff = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T));
+            var stuff = (T) Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T));
             handle.Free();
             return stuff;
         }
@@ -288,7 +291,6 @@ namespace dotnetCampus.Win32ProcessCommandViewer
             };
 
 
-
             [DllImport("ntdll.dll", SetLastError = true)]
             internal static extern int NtQueryInformationProcess
             (
@@ -309,7 +311,7 @@ namespace dotnetCampus.Win32ProcessCommandViewer
                 internal IntPtr UniqueProcessId;
                 internal IntPtr InheritedFromUniqueProcessId;
 
-                internal uint Size => (uint)Marshal.SizeOf(typeof(PROCESS_BASIC_INFORMATION));
+                internal uint Size => (uint) Marshal.SizeOf(typeof(PROCESS_BASIC_INFORMATION));
             }
 
 
