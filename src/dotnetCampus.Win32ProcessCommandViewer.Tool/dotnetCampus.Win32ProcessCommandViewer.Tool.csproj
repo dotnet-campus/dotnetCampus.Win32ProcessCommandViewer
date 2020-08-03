@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+
+		<PackAsTool>true</PackAsTool>
+		<ToolCommandName>pscv</ToolCommandName>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\dotnetCampus.Win32ProcessCommandViewer\dotnetCampus.Win32ProcessCommandViewer.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="dotnetCampus.Win32ProcessCommandViewer.runtimeconfig.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
+</Project>
